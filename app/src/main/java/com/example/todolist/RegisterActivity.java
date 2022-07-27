@@ -1,5 +1,6 @@
 package com.example.todolist;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 
@@ -12,11 +13,21 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
+import com.airbnb.lottie.LottieAnimationView;
 import com.example.todolist.databinding.ActivityLoginBinding;
 import com.example.todolist.databinding.ActivityRegisterBinding;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class RegisterActivity extends AppCompatActivity
 {
@@ -24,12 +35,19 @@ public class RegisterActivity extends AppCompatActivity
     private String mail,password;
     private Dialog dialog;
 
+    private FirebaseAuth mAuth;
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         binding= DataBindingUtil.setContentView(this, R.layout.activity_register);
-        dialog=new Dialog(this);
+
+        mAuth = FirebaseAuth.getInstance();
+        if (mAuth.getCurrentUser() != null){
+            finish();
+            return;
+        }
 
         binding.buttonRegisterPage.setOnClickListener(new View.OnClickListener()
         {
@@ -60,19 +78,7 @@ public class RegisterActivity extends AppCompatActivity
                 {
                     if (Functions.isValidMail(mail)&&Functions.isValidPassword(password))
                     {
-                        dialog.setContentView(R.layout.loading);
-                        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-                        dialog.show();
-                        dialog.setCanceledOnTouchOutside(false);
-
-                        Handler handler = new Handler();
-                        handler.postDelayed(new Runnable() {
-                            public void run() {
-                                dialog.dismiss();
-                                startActivity(new Intent(RegisterActivity.this, ToDoListActivity.class));
-                                finish();
-                            }
-                        }, 3000);
+                        registerUser(mail,password);
                     }
                     else if (mail.isEmpty() || password.isEmpty())
                     {
@@ -99,7 +105,7 @@ public class RegisterActivity extends AppCompatActivity
             @Override
             public void afterTextChanged(Editable editable)
             {
-                Functions.textChanged(editable.toString(),binding.textInputLayoutEmail,"Valid mail address","Please enter a valid email address",getApplicationContext());
+                Functions.textChanged(editable.toString(),binding.textInputLayoutEmail,"Valid mail address","Please enter a valid email address",getApplicationContext(),"email");
             }
         });
 
@@ -120,7 +126,7 @@ public class RegisterActivity extends AppCompatActivity
             @Override
             public void afterTextChanged(Editable editable)
             {
-                Functions.textChanged(editable.toString(),binding.textInputLayoutPassword,"Valid password","Please enter a valid password",getApplicationContext());
+                Functions.textChanged(editable.toString(),binding.textInputLayoutPassword,"Valid password","Please enter a valid password",getApplicationContext(),"password");
             }
         });
 
@@ -156,4 +162,41 @@ public class RegisterActivity extends AppCompatActivity
             }
         });
     }
+
+    private void registerUser(String email, String password)
+    {
+        mAuth.createUserWithEmailAndPassword(email, password)
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task)
+                    {
+                        if (task.isSuccessful())
+                        {
+                            User user=new User(email);
+                            FirebaseDatabase.getInstance().getReference("users")
+                                    .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                                    .setValue(user).addOnCompleteListener(new OnCompleteListener<Void>()
+                            {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task)
+                                {
+                                    showMainActivity();
+                                }
+                            });
+                        }
+                        else
+                        {
+                            Snackbar.make(binding.buttonRegisterPage,"Oopps! An error occurred, please try again",Snackbar.LENGTH_LONG).show();
+                        }
+                    }
+                });
+    }
+
+    private void showMainActivity()
+    {
+        Intent intent = new Intent(this, ToDoListActivity.class);
+        startActivity(intent);
+        finish();
+    }
+
 }

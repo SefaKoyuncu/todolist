@@ -1,5 +1,6 @@
     package com.example.todolist;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 import android.app.Dialog;
@@ -14,12 +15,19 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
 import com.example.todolist.databinding.ActivityLoginBinding;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
 
     public class LoginActivity extends AppCompatActivity {
 
     private ActivityLoginBinding binding;
     private String mail,password;
     private Dialog dialog;
+
+    private FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -29,12 +37,18 @@ import com.example.todolist.databinding.ActivityLoginBinding;
         binding= DataBindingUtil.setContentView(this, R.layout.activity_login);
         dialog=new Dialog(this);
 
+        mAuth = FirebaseAuth.getInstance();
+        if (mAuth.getCurrentUser() != null)
+        {
+            finish();
+            return;
+        }
+
         binding.buttonLogin.setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick(View view)
             {
-
                 mail=Functions.whitespaceRemove(binding.editTextEmail);
                 password=Functions.whitespaceRemove(binding.editTextPassword);
 
@@ -52,27 +66,13 @@ import com.example.todolist.databinding.ActivityLoginBinding;
                             dialog.dismiss();
                         }
                     });
-
                     dialog.show();
                 }
-
                 else
                 {
                     if (Functions.isValidMail(mail)&&Functions.isValidPassword(password))
                     {
-                        dialog.setContentView(R.layout.loading);
-                        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-                        dialog.show();
-                        dialog.setCanceledOnTouchOutside(false);
-
-                        Handler handler = new Handler();
-                        handler.postDelayed(new Runnable() {
-                            public void run() {
-                                dialog.dismiss();
-                                startActivity(new Intent(LoginActivity.this, ToDoListActivity.class));
-                                finish();
-                            }
-                        }, 3000);
+                        authenticateUser(mail,password);
                     }
                     else if (mail.isEmpty() || password.isEmpty())
                     {
@@ -99,7 +99,7 @@ import com.example.todolist.databinding.ActivityLoginBinding;
                 @Override
                 public void afterTextChanged(Editable editable)
                 {
-                    Functions.textChanged(editable.toString(),binding.textInputLayoutEmail,"Valid mail address","Please enter a valid email address",getApplicationContext());
+                    Functions.textChanged(editable.toString(),binding.textInputLayoutEmail,"Valid mail address","Please enter a valid email address",getApplicationContext(),"email");
                 }
             });
 
@@ -120,7 +120,7 @@ import com.example.todolist.databinding.ActivityLoginBinding;
                 @Override
                 public void afterTextChanged(Editable editable)
                 {
-                    Functions.textChanged(editable.toString(),binding.textInputLayoutPassword,"Valid password","Please enter a valid password",getApplicationContext());
+                    Functions.textChanged(editable.toString(),binding.textInputLayoutPassword,"Valid password","Please enter a valid password",getApplicationContext(),"password");
                 }
             });
 
@@ -155,6 +155,42 @@ import com.example.todolist.databinding.ActivityLoginBinding;
             }
         });
 
+        binding.textViewForgotPassword.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view)
+            {
+                startActivity(new Intent(LoginActivity.this,ForgotPasswordActivity.class));
+                finish();
+            }
+        });
+
     }
 
-}
+        private void authenticateUser(String email,String password)
+        {
+            mAuth.signInWithEmailAndPassword(email, password)
+                    .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+                            if (task.isSuccessful())
+                            {
+                                showMainActivity();
+                            }
+                            else
+                            {
+                                Snackbar.make(binding.buttonLogin,"Oopps! An error occurred, please try again",Snackbar.LENGTH_LONG).show();
+                            }
+                        }
+                    });
+        }
+
+        private void showMainActivity()
+        {
+            Intent intent = new Intent(this, ToDoListActivity.class);
+            startActivity(intent);
+            finish();
+        }
+
+
+    }

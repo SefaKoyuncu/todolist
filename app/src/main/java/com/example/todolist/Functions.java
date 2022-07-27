@@ -50,31 +50,53 @@ public class Functions
 
     public static void mailPasswordIsEmpty(String mail, String password, TextInputLayout textInputLayoutEmail, TextInputLayout textInputLayoutPassword, Context mContext)
     {
-        if (mail.isEmpty() && password.isEmpty()) {
+        if (mail.isEmpty() && password.isEmpty())
+        {
             textInputLayoutEmail.setError("Please enter a valid email address");
             textInputLayoutEmail.setBoxStrokeErrorColor(ColorStateList.valueOf(mContext.getResources().getColor(R.color.acikKirmizi)));
             textInputLayoutPassword.setError("Please enter a valid password");
             textInputLayoutPassword.setBoxStrokeErrorColor(ColorStateList.valueOf(mContext.getResources().getColor(R.color.acikKirmizi)));
-        } else if (password.isEmpty()) {
+        }
+        else if (password.isEmpty())
+        {
             textInputLayoutPassword.setError("Please enter a valid password");
             textInputLayoutPassword.setBoxStrokeErrorColor(ColorStateList.valueOf(mContext.getResources().getColor(R.color.acikKirmizi)));
-        } else {
+        }
+        else if (mail.isEmpty())
+        {
             textInputLayoutEmail.setError("Please enter a valid email address");
             textInputLayoutEmail.setBoxStrokeErrorColor(ColorStateList.valueOf(mContext.getResources().getColor(R.color.acikKirmizi)));
         }
     }
 
-    public static void textChanged(String text, TextInputLayout textInputLayout, String helperText, String errorText, Context mContext)
+    public static void textChanged(String text, TextInputLayout textInputLayout, String helperText, String errorText, Context mContext,String whichTextChanged)
     {
-        if (isValidPassword(text))
+        if (whichTextChanged.equals("email"))
         {
-            textInputLayout.setHelperText(helperText);
+            if (isValidMail(text))
+            {
+                textInputLayout.setHelperText(helperText);
+            }
+            else
+            {
+                textInputLayout.setError(errorText);
+                textInputLayout.setBoxStrokeErrorColor(ColorStateList.valueOf(mContext.getResources().getColor(R.color.acikKirmizi)));
+            }
         }
-        else
+        else if (whichTextChanged.equals("password"))
         {
-            textInputLayout.setError(errorText);
-            textInputLayout.setBoxStrokeErrorColor(ColorStateList.valueOf(mContext.getResources().getColor(R.color.acikKirmizi)));
+            if (isValidPassword(text))
+            {
+                textInputLayout.setHelperText(helperText);
+            }
+            else
+            {
+                textInputLayout.setError(errorText);
+                textInputLayout.setBoxStrokeErrorColor(ColorStateList.valueOf(mContext.getResources().getColor(R.color.acikKirmizi)));
+            }
         }
+
+
     }
 
 
