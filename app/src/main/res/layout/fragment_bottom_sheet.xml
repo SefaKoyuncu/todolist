@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="3dp"
+        tools:context=".BottomSheetFragment">
+
+        <Button
+            android:id="@+id/buttonLogin2"
+            android:layout_width="0dp"
+            android:layout_height="60dp"
+            android:layout_marginStart="18dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="18dp"
+            android:layout_marginBottom="24dp"
+            android:layout_weight="1"
+            android:background="@drawable/frame"
+            android:elevation="0dp"
+            android:fontFamily="@font/quicksand_bold"
+            android:gravity="center"
+            android:paddingTop="0dp"
+            android:paddingBottom="0dp"
+            android:text="Add"
+            android:textAllCaps="false"
+            android:textColor="#64646E"
+            android:textSize="26sp"
+            android:textStyle="bold"
+            app:backgroundTint="@color/acikSari"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.45"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textInputLayoutDate" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/textInputLayoutTitle"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="18dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="18dp"
+            android:hint="Title"
+            android:textColorHint="#AEAEB4"
+            android:theme="@style/MyTextInputLayout"
+            app:boxCornerRadiusBottomEnd="36dp"
+            app:boxCornerRadiusBottomStart="36dp"
+            app:boxCornerRadiusTopEnd="36dp"
+            app:boxCornerRadiusTopStart="36dp"
+            app:boxStrokeColor="#FEAC02"
+            app:hintAnimationEnabled="true"
+            app:hintTextAppearance="@style/TextLabel"
+            app:hintTextColor="#1C8E5D"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textViewTitleBottomSheet">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/editTextTitle"
+                android:layout_width="match_parent"
+                android:cursorVisible="true"
+                android:textCursorDrawable="@drawable/cursor"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/quicksand_medium"
+                android:textColor="@color/yesil"
+                android:textSize="20sp"
+                app:backgroundTint="@color/yesil" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/textInputLayoutDate"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="18dp"
+            android:layout_marginTop="12dp"
+            android:layout_marginEnd="18dp"
+            android:hint="Select Deadline"
+            android:textColorHint="#AEAEB4"
+            android:theme="@style/MyTextInputLayout"
+            app:boxCornerRadiusBottomEnd="36dp"
+            app:boxCornerRadiusBottomStart="36dp"
+            app:boxCornerRadiusTopEnd="36dp"
+            app:boxCornerRadiusTopStart="36dp"
+            app:boxStrokeColor="#FEAC02"
+            app:hintAnimationEnabled="true"
+            app:hintTextAppearance="@style/TextLabel"
+            app:hintTextColor="#1C8E5D"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textInputLayoutTitle">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/editTextDate"
+                android:layout_width="match_parent"
+                android:focusableInTouchMode="false"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/quicksand_medium"
+                android:textColor="@color/yesil"
+                android:textSize="20sp"
+                app:backgroundTint="@color/yesil" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <TextView
+            android:id="@+id/textViewTitleBottomSheet"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:fontFamily="@font/quicksand_medium"
+            android:text="Add your to do"
+            android:textColor="@color/acikKirmizi"
+            android:textSize="30sp"
+            android:textStyle="normal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.497"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
