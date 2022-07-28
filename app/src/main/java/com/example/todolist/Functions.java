@@ -1,13 +1,8 @@
 package com.example.todolist;
 
-import android.app.Dialog;
 import android.content.Context;
 import android.content.res.ColorStateList;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.net.ConnectivityManager;
-import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import com.google.android.material.textfield.TextInputLayout;
 import java.util.regex.Pattern;

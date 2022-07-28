@@ -28,9 +28,7 @@ public class ForgotPasswordActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         binding= DataBindingUtil.setContentView(this, R.layout.activity_forgot_password);
-
         mAuth = FirebaseAuth.getInstance();
-
         binding.editTextEmail.addTextChangedListener(new TextWatcher()
         {
             @Override
@@ -38,13 +36,11 @@ public class ForgotPasswordActivity extends AppCompatActivity {
             {
 
             }
-
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2)
             {
 
             }
-
             @Override
             public void afterTextChanged(Editable editable)
             {
@@ -68,7 +64,6 @@ public class ForgotPasswordActivity extends AppCompatActivity {
                     binding.textInputLayoutEmail.setError("Please enter a valid email address!");
                     binding.textInputLayoutEmail.setBoxStrokeErrorColor(ColorStateList.valueOf(getResources().getColor(R.color.acikKirmizi)));
                 }
-
             }
         });
 
@@ -77,10 +72,10 @@ public class ForgotPasswordActivity extends AppCompatActivity {
             @Override
             public void onClick(View view)
             {
-                startActivity(new Intent(ForgotPasswordActivity.this,LoginActivity.class));
+                onBackPressed();
+                //startActivity(new Intent(ForgotPasswordActivity.this,LoginActivity.class));
             }
         });
-
     }
 
     private void resetPassword(String email)
@@ -100,5 +95,11 @@ public class ForgotPasswordActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        finish();
     }
 }

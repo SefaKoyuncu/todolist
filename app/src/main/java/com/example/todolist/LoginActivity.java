@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
@@ -26,8 +27,8 @@ import com.google.firebase.auth.FirebaseAuth;
     private ActivityLoginBinding binding;
     private String mail,password;
     private Dialog dialog;
-
     private FirebaseAuth mAuth;
+    private ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -36,6 +37,7 @@ import com.google.firebase.auth.FirebaseAuth;
 
         binding= DataBindingUtil.setContentView(this, R.layout.activity_login);
         dialog=new Dialog(this);
+        progressDialog=new ProgressDialog(LoginActivity.this);
 
         mAuth = FirebaseAuth.getInstance();
         if (mAuth.getCurrentUser() != null)
@@ -89,13 +91,11 @@ import com.google.firebase.auth.FirebaseAuth;
                 {
 
                 }
-
                 @Override
                 public void onTextChanged(CharSequence charSequence, int i, int i1, int i2)
                 {
 
                 }
-
                 @Override
                 public void afterTextChanged(Editable editable)
                 {
@@ -110,13 +110,11 @@ import com.google.firebase.auth.FirebaseAuth;
                 {
 
                 }
-
                 @Override
                 public void onTextChanged(CharSequence charSequence, int i, int i1, int i2)
                 {
 
                 }
-
                 @Override
                 public void afterTextChanged(Editable editable)
                 {
@@ -161,20 +159,21 @@ import com.google.firebase.auth.FirebaseAuth;
             public void onClick(View view)
             {
                 startActivity(new Intent(LoginActivity.this,ForgotPasswordActivity.class));
-                finish();
             }
         });
-
     }
 
         private void authenticateUser(String email,String password)
         {
             mAuth.signInWithEmailAndPassword(email, password)
-                    .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    .addOnCompleteListener(this, new OnCompleteListener<AuthResult>()
+                    {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if (task.isSuccessful())
                             {
+                                progressDialog.setMessage("Loading...");
+                                progressDialog.show();
                                 showMainActivity();
                             }
                             else
@@ -191,6 +190,4 @@ import com.google.firebase.auth.FirebaseAuth;
             startActivity(intent);
             finish();
         }
-
-
     }

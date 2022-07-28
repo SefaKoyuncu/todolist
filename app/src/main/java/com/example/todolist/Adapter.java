@@ -9,16 +9,14 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.todolist.databinding.FragmentBottomSheetBinding;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.List;
@@ -30,8 +28,6 @@ public class Adapter extends RecyclerView.Adapter<Adapter.CardviewTasarimNesnele
     FragmentManager fragmentManager;
 
     private FirebaseDatabase database;
-
-    private DatabaseReference databaseReference;
     private FirebaseUser currentUser;
     private FirebaseAuth auth;
     private String onlineUserID;
@@ -62,7 +58,6 @@ public class Adapter extends RecyclerView.Adapter<Adapter.CardviewTasarimNesnele
         currentUser = auth.getCurrentUser();
         onlineUserID=currentUser.getUid();
 
-
         holder.textViewTitle.setText(todo.getTitleText());
         holder.textViewDateFromCard.setText(todo.getDateFrom());
         holder.textViewDateTo.setText(todo.getDateTo());
@@ -85,6 +80,8 @@ public class Adapter extends RecyclerView.Adapter<Adapter.CardviewTasarimNesnele
             public void onClick(View view)
             {
                 database.getReference().child("tasks").child(onlineUserID).child(todo.getId()).removeValue();
+                Snackbar.make(holder.imageView,"Successfully deleted!",Snackbar.LENGTH_LONG).show();
+
             }
         });
 
@@ -96,6 +93,7 @@ public class Adapter extends RecyclerView.Adapter<Adapter.CardviewTasarimNesnele
         return todoArraylist.size();
     }
 
+
     public class CardviewTasarimNesneleriniTutucu extends RecyclerView.ViewHolder
     {
 
@@ -103,7 +101,6 @@ public class Adapter extends RecyclerView.Adapter<Adapter.CardviewTasarimNesnele
         public CardView cardView;
         public ConstraintLayout clCard,cLexpandable;
         public ImageView imageView;
-
 
         public CardviewTasarimNesneleriniTutucu(@NonNull View itemView)
         {
@@ -126,59 +123,6 @@ public class Adapter extends RecyclerView.Adapter<Adapter.CardviewTasarimNesnele
                     notifyItemChanged(getAdapterPosition());
                 }
             });
-
         }
-    }
-
-    private  void viewBottomSheet()
-    {
-        //View view = activity.getLayoutInflater ().inflate (R.layout.bottom_sheet, null);
-        // View view = inflater.inflate( R.layout.bottom_sheet, null );
-        LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View view = inflater.inflate(R.layout.fragment_bottom_sheet, null);
-
-        TextView textViewTitleBottomSheet = view.findViewById(R.id.textViewTitleBottomSheet);
-        textViewTitleBottomSheet.setText("deneme");
-
-        //TextView txtBackup = (TextView)view.findViewById(R.id.txt_backup);
-        //TextView txtDetail = (TextView)view.findViewById(R.id.txt_detail);
-        //TextView txtOpen = (TextView)view.findViewById(R.id.txt_open);
-        //final TextView txtUninstall = (TextView)view.findViewById( R.id.txt_backup);
-
-        /*final Dialog mBottomSheetDialog = new Dialog(context, R.style.MaterialDialogSheet);
-        mBottomSheetDialog.setContentView(view);
-        mBottomSheetDialog.setCancelable(true);
-        mBottomSheetDialog.getWindow().setLayout(LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT);
-        mBottomSheetDialog.getWindow().setGravity(Gravity.BOTTOM);
-        mBottomSheetDialog.show();
-
-
-        txtBackup.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(v.getContext(), "Clicked Backup", Toast.LENGTH_SHORT).show();
-                mBottomSheetDialog.dismiss();
-            }
-        });
-
-        txtDetail.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(v.getContext(), "Clicked Detail", Toast.LENGTH_SHORT).show();
-                mBottomSheetDialog.dismiss();
-            }
-        });
-
-        txtOpen.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(v.getContext(), "Clicked Open", Toast.LENGTH_SHORT).show();
-                mBottomSheetDialog.dismiss();
-            }
-        });*/
     }
 }

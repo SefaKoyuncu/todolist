@@ -25,6 +25,7 @@ import com.example.todolist.databinding.ActivityToDoListBinding;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.ChildEventListener;
@@ -41,10 +42,8 @@ public class ToDoListActivity extends AppCompatActivity
 {
     private ActivityToDoListBinding binding;
     private Adapter adapter;
-    static ArrayList<Todo> todoArraylist=new ArrayList<>();
-
+    static  ArrayList<Todo> todoArraylist=new ArrayList<>();
     private FirebaseDatabase firebaseDatabase;
-
     private DatabaseReference databaseReference;
     private FirebaseUser currentUser;
     private FirebaseAuth auth;
@@ -56,14 +55,6 @@ public class ToDoListActivity extends AppCompatActivity
         binding= DataBindingUtil.setContentView(this, R.layout.activity_to_do_list);
 
         firebaseDatabase=FirebaseDatabase.getInstance();
-
-      /*  Todo todo=new Todo("read a book","12.12.2022","13.12.2022");
-        Todo todo2=new Todo("market","14.12.2022","15.12.2022");
-        Todo todo3=new Todo("cleaning","16.12.2022","17.12.2022");
-
-        todoArraylist.add(todo);
-        todoArraylist.add(todo2);
-        todoArraylist.add(todo3);*/
 
         auth = FirebaseAuth.getInstance();
         currentUser = auth.getCurrentUser();
@@ -79,11 +70,8 @@ public class ToDoListActivity extends AppCompatActivity
         onlineUserID=currentUser.getUid();
         databaseReference=FirebaseDatabase.getInstance().getReference().child("tasks").child(onlineUserID);
 
-       // Log.e("currentuser1",currentUser.getUid());
-
         holdRecyclerView();
         getDatas();
-
 
         binding.fab.setOnClickListener(new View.OnClickListener()
         {
@@ -92,7 +80,6 @@ public class ToDoListActivity extends AppCompatActivity
             {
                 BottomSheetFragment bottomSheetFragment=new BottomSheetFragment();
                 bottomSheetFragment.show(getSupportFragmentManager(),bottomSheetFragment.getTag());
-                //Log.e("currentuser2",currentUser.getUid());
             }
         });
 
@@ -104,8 +91,6 @@ public class ToDoListActivity extends AppCompatActivity
                 logoutUser();
             }
         });
-
-        //getAllCourses();
     }
 
     private void logoutUser(){
@@ -124,8 +109,8 @@ public class ToDoListActivity extends AppCompatActivity
             public void onDataChange(@NonNull DataSnapshot snapshot) {
 
                 todoArraylist.clear();     // this is important, because if we dont clear the list same object again add
-                for(DataSnapshot ds : snapshot.getChildren()) {
-
+                for(DataSnapshot ds : snapshot.getChildren())
+                {
                     String id = ds.child("id").getValue(String.class);
                     String titleText = ds.child("titleText").getValue(String.class);
                     String dateFrom = ds.child("dateFrom").getValue(String.class);
@@ -134,23 +119,29 @@ public class ToDoListActivity extends AppCompatActivity
                     Todo todo=new Todo(id,titleText,dateFrom,dateTo);
                     todoArraylist.add(todo);
                 }
-
                 Collections.reverse(todoArraylist);
 
                 adapter = new Adapter(ToDoListActivity.this,todoArraylist,getSupportFragmentManager());
                 binding.rv.setAdapter(adapter);
 
-               /* if (todoArraylist.isEmpty()){
-                    mainBinding.imageViewAddTask.setVisibility(View.VISIBLE);
+                if (todoArraylist.isEmpty())
+                {
+                    binding.imageViewAddHere.setVisibility(View.VISIBLE);
+                    binding.textViewAddHere.setVisibility(View.VISIBLE);
+                    binding.rv.setVisibility(View.INVISIBLE);
                 }
-                else {
-                    mainBinding.imageViewAddTask.setVisibility(View.INVISIBLE);
-                }*/
+                else
+                {
+                    binding.imageViewAddHere.setVisibility(View.INVISIBLE);
+                    binding.textViewAddHere.setVisibility(View.INVISIBLE);
+                    binding.rv.setVisibility(View.VISIBLE);
+                }
             }
 
             @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                Toast.makeText(ToDoListActivity.this, "Fail to get data.", Toast.LENGTH_SHORT).show();
+            public void onCancelled(@NonNull DatabaseError error)
+            {
+                Snackbar.make(binding.rv,"Fail to get data.",Snackbar.LENGTH_LONG).show();
             }
         });
     }

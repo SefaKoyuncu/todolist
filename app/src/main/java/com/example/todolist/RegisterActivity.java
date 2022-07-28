@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
@@ -34,14 +35,18 @@ public class RegisterActivity extends AppCompatActivity
     private ActivityRegisterBinding binding;
     private String mail,password;
     private Dialog dialog;
-
     private FirebaseAuth mAuth;
+    private ProgressDialog progressDialog;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         binding= DataBindingUtil.setContentView(this, R.layout.activity_register);
+        dialog=new Dialog(this);
+        progressDialog=new ProgressDialog(RegisterActivity.this);
+
 
         mAuth = FirebaseAuth.getInstance();
         if (mAuth.getCurrentUser() != null){
@@ -54,7 +59,6 @@ public class RegisterActivity extends AppCompatActivity
             @Override
             public void onClick(View view)
             {
-
                 mail=Functions.whitespaceRemove(binding.editTextEmail);
                 password=Functions.whitespaceRemove(binding.editTextPassword);
 
@@ -95,13 +99,11 @@ public class RegisterActivity extends AppCompatActivity
             {
 
             }
-
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2)
             {
 
             }
-
             @Override
             public void afterTextChanged(Editable editable)
             {
@@ -116,13 +118,11 @@ public class RegisterActivity extends AppCompatActivity
             {
 
             }
-
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2)
             {
 
             }
-
             @Override
             public void afterTextChanged(Editable editable)
             {
@@ -157,8 +157,7 @@ public class RegisterActivity extends AppCompatActivity
             @Override
             public void onClick(View view)
             {
-                //onBackPressed();
-                startActivity(new Intent(RegisterActivity.this,ToDoListActivity.class));
+                onBackPressed();
             }
         });
     }
@@ -180,6 +179,8 @@ public class RegisterActivity extends AppCompatActivity
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task)
                                 {
+                                    progressDialog.setMessage("Loading...");
+                                    progressDialog.show();
                                     showMainActivity();
                                 }
                             });
@@ -199,4 +200,9 @@ public class RegisterActivity extends AppCompatActivity
         finish();
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        finish();
+    }
 }
