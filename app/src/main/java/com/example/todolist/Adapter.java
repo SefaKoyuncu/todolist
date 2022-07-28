@@ -6,6 +6,7 @@ import android.transition.TransitionManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -15,6 +16,10 @@ import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.todolist.databinding.FragmentBottomSheetBinding;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.List;
 
@@ -24,12 +29,19 @@ public class Adapter extends RecyclerView.Adapter<Adapter.CardviewTasarimNesnele
     private List<Todo> todoArraylist;
     FragmentManager fragmentManager;
 
+    private FirebaseDatabase database;
+
+    private DatabaseReference databaseReference;
+    private FirebaseUser currentUser;
+    private FirebaseAuth auth;
+    private String onlineUserID;
+
+
     public Adapter(Context mContext, List<Todo> todoArraylist, FragmentManager fragmentManager)
     {
         this.mContext = mContext;
         this.todoArraylist = todoArraylist;
         this.fragmentManager = fragmentManager;
-
     }
 
     @NonNull
@@ -45,20 +57,15 @@ public class Adapter extends RecyclerView.Adapter<Adapter.CardviewTasarimNesnele
     {
         final Todo todo=todoArraylist.get(position);
 
-        holder.textViewTitle.setText(todo.getTitleText());
-        holder.textViewDateFrom.setText(todo.getDateFrom());
-        holder.textViewDateTo.setText(todo.getDateTo());
+        database = FirebaseDatabase.getInstance();
+        auth = FirebaseAuth.getInstance();
+        currentUser = auth.getCurrentUser();
+        onlineUserID=currentUser.getUid();
 
-        holder.cLUpdate.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View view)
-            {
-                BottomSheetFragment bottomSheetFragment=new BottomSheetFragment("deneme","29.07.2022");
-                bottomSheetFragment.show(fragmentManager,bottomSheetFragment.getTag());
-                //viewBottomSheet();
-            }
-        });
+
+        holder.textViewTitle.setText(todo.getTitleText());
+        holder.textViewDateFromCard.setText(todo.getDateFrom());
+        holder.textViewDateTo.setText(todo.getDateTo());
 
         boolean isExpandable=todoArraylist.get(position).isExpandable();
 
@@ -72,6 +79,15 @@ public class Adapter extends RecyclerView.Adapter<Adapter.CardviewTasarimNesnele
             holder.cLexpandable.setVisibility(View.GONE);
         }
 
+        holder.imageView.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view)
+            {
+                database.getReference().child("tasks").child(onlineUserID).child(todo.getId()).removeValue();
+            }
+        });
+
     }
 
     @Override
@@ -83,21 +99,22 @@ public class Adapter extends RecyclerView.Adapter<Adapter.CardviewTasarimNesnele
     public class CardviewTasarimNesneleriniTutucu extends RecyclerView.ViewHolder
     {
 
-        public TextView textViewTitle,textViewDateFrom,textViewDateTo;
+        public TextView textViewTitle,textViewDateFromCard,textViewDateTo;
         public CardView cardView;
-        public ConstraintLayout clCard,cLexpandable,cLUpdate;
+        public ConstraintLayout clCard,cLexpandable;
+        public ImageView imageView;
 
 
         public CardviewTasarimNesneleriniTutucu(@NonNull View itemView)
         {
             super(itemView);
             textViewTitle=itemView.findViewById(R.id.textViewTitle);
-            textViewDateFrom=itemView.findViewById(R.id.textViewDateFrom);
+            textViewDateFromCard=itemView.findViewById(R.id.textViewDateFromCard);
             textViewDateTo=itemView.findViewById(R.id.textViewDateTo);
             cardView=itemView.findViewById(R.id.cardView);
             clCard=itemView.findViewById(R.id.clCard);
             cLexpandable=itemView.findViewById(R.id.cLexpandable);
-            cLUpdate=itemView.findViewById(R.id.cLUpdate);
+            imageView=itemView.findViewById(R.id.imageView);
 
             clCard.setOnClickListener(new View.OnClickListener()
             {

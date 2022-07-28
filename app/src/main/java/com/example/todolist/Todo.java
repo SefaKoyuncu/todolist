@@ -6,14 +6,25 @@ public class Todo
     private String dateFrom;
     private String dateTo;
     private boolean expandable;
+    private String id;
 
     public Todo() {
     }
 
-    public Todo(String titleText, String dateFrom, String dateTo) {
+    public Todo(String id,String titleText, String dateFrom, String dateTo)
+    {
         this.titleText = titleText;
         this.dateFrom = dateFrom;
         this.dateTo = dateTo;
+        this.id = id;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getTitleText() {

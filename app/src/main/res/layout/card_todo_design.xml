@@ -37,7 +37,7 @@
                 android:gravity="start"
                 android:paddingStart="9dp"
                 android:paddingBottom="9dp"
-                android:text="TextView"
+                android:text="Nothing"
                 android:textColor="@color/sari"
                 android:textSize="26sp"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -51,7 +51,7 @@
                 android:layout_marginTop="3dp"
                 android:layout_marginEnd="9dp"
                 android:fontFamily="sans-serif-medium"
-                android:text="26.02.2022"
+                android:text="nothing"
                 android:textColor="#FF7B7B83"
                 android:textSize="18sp"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -80,100 +80,45 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textViewTitle">
 
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/cLDelete"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="12dp"
-                    android:layout_marginBottom="3dp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@+id/cLUpdate"
-                    app:layout_constraintHorizontal_bias="0.5"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/textViewDateFrom3">
-
-                    <ImageView
-                        android:id="@+id/imageView"
-                        android:layout_width="36dp"
-                        android:layout_height="36dp"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:srcCompat="@drawable/delete" />
-
-                    <TextView
-                        android:id="@+id/textViewDateFrom4"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="sans-serif-medium"
-                        android:text="Delete to do"
-                        android:textColor="@color/acikKirmizi"
-                        android:textSize="16sp"
-                        app:layout_constraintBottom_toBottomOf="@+id/imageView"
-                        app:layout_constraintStart_toEndOf="@+id/imageView"
-                        app:layout_constraintTop_toTopOf="@+id/imageView" />
-                </androidx.constraintlayout.widget.ConstraintLayout>
-
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/cLUpdate"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="12dp"
-                    android:layout_marginBottom="3dp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.5"
-                    app:layout_constraintStart_toEndOf="@+id/cLDelete"
-                    app:layout_constraintTop_toBottomOf="@+id/textViewDateFrom">
-
-                    <ImageView
-                        android:id="@+id/imageView2"
-                        android:layout_width="36dp"
-                        android:layout_height="36dp"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:srcCompat="@drawable/update" />
-
-                    <TextView
-                        android:id="@+id/textViewDateFrom5"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="sans-serif-medium"
-                        android:text="Update to do"
-                        android:textColor="@color/yesil"
-                        android:textSize="16sp"
-                        app:layout_constraintBottom_toBottomOf="@+id/imageView2"
-                        app:layout_constraintStart_toEndOf="@+id/imageView2"
-                        app:layout_constraintTop_toTopOf="@+id/imageView2" />
-                </androidx.constraintlayout.widget.ConstraintLayout>
-
                 <TextView
-                    android:id="@+id/textViewDateFrom"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="3dp"
-                    android:fontFamily="sans-serif-medium"
-                    android:text="26.02.2022"
-                    android:textColor="#7B7B83"
-                    android:textSize="18sp"
-                    android:visibility="gone"
-                    app:layout_constraintBottom_toBottomOf="@+id/textViewDateFrom3"
-                    app:layout_constraintStart_toEndOf="@+id/textViewDateFrom3"
-                    app:layout_constraintTop_toTopOf="@+id/textViewDateFrom3" />
-
-                <TextView
-                    android:id="@+id/textViewDateFrom3"
+                    android:id="@+id/textViewDateTo3"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="9dp"
-                    android:layout_marginTop="1dp"
+                    android:layout_marginTop="12dp"
+                    android:layout_marginBottom="12dp"
                     android:fontFamily="sans-serif-medium"
                     android:text="Creation Date : "
-                    android:textColor="@color/yesil"
+                    android:textColor="#636368"
                     android:textSize="16sp"
-                    android:visibility="gone"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/textViewDateFromCard"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="1dp"
+                    android:fontFamily="sans-serif-medium"
+                    android:text="nothing"
+                    android:textColor="#FF7B7B83"
+                    android:textSize="18sp"
+                    app:layout_constraintBottom_toBottomOf="@+id/textViewDateTo3"
+                    app:layout_constraintStart_toEndOf="@+id/textViewDateTo3"
+                    app:layout_constraintTop_toTopOf="@+id/textViewDateTo3" />
+
+                <ImageView
+                    android:id="@+id/imageView"
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    android:layout_marginTop="12dp"
+                    android:layout_marginEnd="9dp"
+                    android:layout_marginBottom="12dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/delete" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
