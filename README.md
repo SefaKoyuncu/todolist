@@ -10,7 +10,7 @@
 
 - Added to-dos will appear in the list. When you click on it, the card expands and creation date and delete appear. Delete can be done with delete.
 
--You can logout from the top right. If you have not logged out, even if you close the application, the login screen will not appear, it will go directly to the screen with to-dos.
+- You can logout from the top right. If you have not logged out, even if you close the application, the login screen will not appear, it will go directly to the screen with to-dos.
 
 ### Structures
 -Firebase authentication and realtime database
