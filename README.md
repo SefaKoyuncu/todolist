@@ -12,6 +12,11 @@
 
 -You can logout from the top right. If you have not logged out, even if you close the application, the login screen will not appear, it will go directly to the screen with to-dos.
 
+### Structures
+-Firebase
+-Recyclerview-Cardview
+-Bottomsheet
+
 <br />
 <img src="Android_logo.png" width="100" height="100"><a id="raw-url" href="https://raw.githubusercontent.com/SefaKoyuncu/todolist/master/to-do-list.apk">Download APK Here</a>
 
@@ -20,7 +25,7 @@
  <br />
 <table>
   <tr>
-    <td><img src="register.jpeg" width="216" height="400"></td>
+    <td><img src="images/add a to-do.jpeg" width="216" height="400"></td>
     <td><img src="reset password.jpeg" width="200" height="400"></td>
     <td><img src="login.jpeg" width="200" height="400"></td>
       <td><img src="nolist.jpeg" width="200" height="400"></td>
