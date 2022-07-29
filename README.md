@@ -1,5 +1,4 @@
 # todolist
-to-do-list app with firebase, register email-password and login. Add your to-dos in bottomsheet dialog, delete. You can see creation date, deadline. Creation date and delete is in expandable cardview.
 
 ### Project Information
 
